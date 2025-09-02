@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -36,9 +38,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
 
     }
-    kotlinOptions {
-        jvmTarget = "11"
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+        }
     }
+
     buildFeatures {
         compose = true
     }
@@ -55,9 +61,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serializetion)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.retrofit)
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.android.compiler)
-    implementation(libs.kotlinx.serializetion)
 
     testImplementation(libs.junit)
 

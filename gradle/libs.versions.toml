@@ -8,9 +8,14 @@ espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.9.3"
 activityCompose = "1.10.1"
 composeBom = "2025.08.01"
+
 daggerHilt = "2.57.1"
 ksp = "2.2.10-2.0.2"
 kotlinXSerialization = "1.9.0"
+retrofit = "3.0.0"
+kotlinxCoroutinesAndroid = "1.10.2"
+hiltNavigationCompose = "1.2.0"
+navigationCompose = "2.9.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,12 +36,17 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
 dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt" }
 kotlinx-serializetion = { group = "org.jetbrains.kotlinx",name = "kotlinx-serialization-json", version.ref = "kotlinXSerialization" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlinx-serializetion = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
 
+kotlinx-serializetion = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
