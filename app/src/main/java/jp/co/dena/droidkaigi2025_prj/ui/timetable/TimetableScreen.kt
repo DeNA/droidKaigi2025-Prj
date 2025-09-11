@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,23 +23,31 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import jp.co.dena.droidkaigi2025_prj.TableItem
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 
 @Composable
 fun TimeTableScreen(
-    viewModel: TimetableViewModel = hiltViewModel()
+    viewModel: TimetableViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val timeTable: TimeTable? by viewModel.timeTable.collectAsStateWithLifecycle()
     timeTable?.let {
         TimeTableScreen(
-            decodedTimetable = it
+            decodedTimetable = it,
+            onSessionClick = { index ->
+                navController.navigate("session_detail")
+            }
         )
     }
 }
 
 @Composable
-fun TimeTableScreen(decodedTimetable: TimeTable) {
+fun TimeTableScreen(
+    decodedTimetable: TimeTable,
+    onSessionClick: (Int) -> Unit,
+) {
     val top = with(LocalDensity.current) {
         WindowInsets.displayCutout.getTop(LocalDensity.current).toDp()
     }
@@ -64,10 +73,13 @@ fun TimeTableScreen(decodedTimetable: TimeTable) {
         ) {
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(
+                itemsIndexed(
                     decodedTimetable.sessions
-                ) {
-                    TableItem(it)
+                ) { index, item ->
+                    TableItem(
+                        item,
+                        onClick = { onSessionClick(index) }
+                    )
                 }
             }
         }

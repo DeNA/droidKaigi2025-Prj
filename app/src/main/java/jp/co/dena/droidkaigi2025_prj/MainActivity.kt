@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,6 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
@@ -35,7 +40,20 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DroidKaigi2025PrjTheme {
-                TimeTableScreen()
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = "time_table"
+                ) {
+                    composable("time_table") {
+                        TimeTableScreen(
+                            navController = navController
+                        )
+                    }
+                    composable("session_detail") {
+                        Text("TODO")
+                    }
+                }
             }
         }
     }
@@ -43,34 +61,41 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TableItem(session: Session) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 100.dp)
-            .background(Color.Cyan, RoundedCornerShape(10))
-            .padding(
-                horizontal = 12.dp,
-                vertical = 6.dp
-            ),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+fun TableItem(
+    session: Session,
+    onClick: () -> Unit,
+) {
+    Card(
+        onClick = onClick
     ) {
-        Text(
-            session.startsAt
-        )
-        Text(
-            session.title.ja,
-            style = TextStyle.Default.copy(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            ),
-            )
-        if(session.speakers.isNotEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 100.dp)
+                .background(Color.Cyan, RoundedCornerShape(10))
+                .padding(
+                    horizontal = 12.dp,
+                    vertical = 6.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Text(
-                // name?
-                text = session.speakers[0]
+                session.startsAt
             )
+            Text(
+                session.title.ja,
+                style = TextStyle.Default.copy(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                ),
+            )
+            if(session.speakers.isNotEmpty()) {
+                Text(
+                    // name?
+                    text = session.speakers[0]
+                )
+            }
         }
     }
 }
