@@ -3,6 +3,8 @@ package jp.co.dena.droidkaigi2025_prj.ui.timetable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -18,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -68,8 +71,9 @@ fun TimeTableScreen(
     ) { innerPadding ->
         Box(
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(12.dp)
+                .padding(top = innerPadding.calculateTopPadding(), start = innerPadding.calculateStartPadding(
+                    LayoutDirection.Ltr), end = innerPadding.calculateEndPadding(LayoutDirection.Ltr), )
+                .padding(horizontal = 12.dp)
         ) {
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
