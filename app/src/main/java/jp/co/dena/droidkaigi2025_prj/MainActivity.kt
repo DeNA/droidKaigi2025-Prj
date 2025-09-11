@@ -72,8 +72,13 @@ fun TableItem(session: Session) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             ),
-
             )
+        if(session.speakers.isNotEmpty()) {
+            Text(
+                // name?
+                text = session.speakers[0]
+            )
+        }
     }
 }
 
