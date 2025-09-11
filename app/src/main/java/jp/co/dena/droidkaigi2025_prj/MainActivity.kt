@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,14 +34,31 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DroidKaigi2025PrjTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding).padding(12.dp)) {
-                        Text(
-                            "Time Table",
-                            fontSize = 40.sp,
-                            fontWeight = FontWeight.Black,
-                            color = Color.Blue
-                        )
+                Scaffold(
+                    topBar = {
+                        Box(
+                            modifier = Modifier.padding(32.dp)
+                        ) {
+                            Text(
+                                "Time Table",
+                                fontSize = 40.sp,
+                                fontWeight = FontWeight.Black,
+                                color = Color.Blue
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Box(modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(12.dp)) {
+
+                        LazyColumn () {
+                            items(
+                                count = 2,
+                            ) {
+                                TableItem()
+                            }
+                        }
                     }
 
                 }
