@@ -26,12 +26,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import jp.co.dena.droidkaigi2025_prj.data.TimeTable
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
+import java.io.BufferedReader
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalSerializationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val timetable = assets.open("timetable.json").buffered()
+        val decodedTimetable = Json.decodeFromStream<TimeTable>(timetable)
+
+        print(decodedTimetable)
+
         setContent {
             DroidKaigi2025PrjTheme {
                 Scaffold(
