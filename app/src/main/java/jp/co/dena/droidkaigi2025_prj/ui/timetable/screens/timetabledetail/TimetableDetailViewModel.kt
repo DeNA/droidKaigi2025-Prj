@@ -28,7 +28,7 @@ class TimetableDetailViewModel @Inject constructor(
             _screenState.update { TimetableDetailState.Loading }
 
             // simulate network
-            delay(2000L)
+            delay(1000L)
 
             _screenState.update {
                 runCatching {

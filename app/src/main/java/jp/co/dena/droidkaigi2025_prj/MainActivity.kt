@@ -15,10 +15,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
@@ -73,6 +77,16 @@ fun TableItem(
     onClick: () -> Unit,
 ) {
     Card(
+        modifier = Modifier.run {
+            dropShadow(
+                shape = RoundedCornerShape(4.dp),
+                shadow = androidx.compose.ui.graphics.shadow.Shadow(
+                    radius = 8.dp,
+                    color = Color.Black.copy(alpha = 0.1f),
+                    offset = DpOffset(x = 4.dp, y = 4.dp)
+                )
+            )
+        },
         onClick = onClick
     ) {
         Column(
