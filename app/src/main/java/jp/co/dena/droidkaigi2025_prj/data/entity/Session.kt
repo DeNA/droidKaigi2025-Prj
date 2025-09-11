@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Session(
     val asset: Asset,
-    val description: String,
+    val description: String?,
     val endsAt: String,
     val i18nDesc: I18nDesc,
     val i18nTargetAudience: I18nTargetAudience,

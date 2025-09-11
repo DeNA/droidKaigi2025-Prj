@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -38,7 +40,6 @@ class MainActivity : ComponentActivity() {
         val timetable = assets.open("timetable.json").buffered()
         val decodedTimetable = Json.decodeFromStream<TimeTable>(timetable)
 
-        print(decodedTimetable)
 
         setContent {
             DroidKaigi2025PrjTheme {
@@ -55,16 +56,19 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     },
-                    modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier
-                        .padding(innerPadding)
-                        .padding(12.dp)) {
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
+                    Box(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .padding(12.dp)
+                    ) {
 
-                        LazyColumn () {
+                        LazyColumn() {
                             items(
-                                count = 2,
+                                decodedTimetable.sessions
                             ) {
-                                TableItem()
+                                TableItem(it)
                             }
                         }
                     }
@@ -76,41 +80,26 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TableItem() {
-
-    // TODO: うまくデータ入れる :pray:
-
-    val items = List(2) {
-        "Nawhal patch 1.$it"
-    }
-
+fun TableItem(session: Session) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items.map { sessionItem ->
-            Text(sessionItem,
-                style = TextStyle.Default.copy(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                ),
-                modifier = Modifier
-                    .background(Color.Cyan)
-            )
-        }
+        Text(
+            session.title.ja,
+            style = TextStyle.Default.copy(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            ),
+            modifier = Modifier
+                .background(Color.Cyan)
+        )
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewTableItem() {
-    MaterialTheme {
-        TableItem()
-    }
-}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
