@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,11 +34,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             DroidKaigi2025PrjTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-
+                    Box(modifier = Modifier.padding(innerPadding).padding(12.dp)) {
+                        Text(
+                            "Time Table",
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Black,
+                            color = Color.Blue
+                        )
+                    }
 
                 }
             }
