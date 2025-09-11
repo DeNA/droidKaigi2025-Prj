@@ -13,7 +13,7 @@ data class Session(
     val language: String,
     val lengthInMinutes: Int,
     val levels: List<String>,
-    val message: Any,
+    val message: String?,
     val noShow: Boolean,
     val roomId: Int,
     val sessionCategoryItemId: Int,
