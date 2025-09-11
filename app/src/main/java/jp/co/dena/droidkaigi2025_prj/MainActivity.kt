@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,14 +50,15 @@ fun TableItem() {
 
     // TODO: うまくデータ入れる :pray:
 
-    val items = List(1) {
-        "Nawhal patch 1.1"
+    val items = List(2) {
+        "Nawhal patch 1.$it"
     }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp)
+            .height(64.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items.map { sessionItem ->
             Text(sessionItem,
@@ -63,7 +66,9 @@ fun TableItem() {
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
-                )
+                ),
+                modifier = Modifier
+                    .background(Color.Cyan)
             )
         }
     }
