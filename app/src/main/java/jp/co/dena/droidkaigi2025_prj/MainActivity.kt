@@ -4,21 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,13 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
-import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimeTableScreen
-import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimetableViewModel
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -59,7 +47,12 @@ fun TableItem(session: Session) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Cyan, RoundedCornerShape(10)),
+            .heightIn(min = 100.dp)
+            .background(Color.Cyan, RoundedCornerShape(10))
+            .padding(
+                horizontal = 12.dp,
+                vertical = 6.dp
+            ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
@@ -91,10 +84,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    DroidKaigi2025PrjTheme {
-//        Greeting("Android")
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    DroidKaigi2025PrjTheme {
+        Greeting("Android")
+    }
+}
