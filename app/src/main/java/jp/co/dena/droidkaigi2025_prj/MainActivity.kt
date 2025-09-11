@@ -1,6 +1,5 @@
 package jp.co.dena.droidkaigi2025_prj
 
-import android.R
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,17 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import jp.co.dena.droidkaigi2025_prj.data.TimeTable
+import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import java.io.BufferedReader
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalSerializationApi::class)

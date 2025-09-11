@@ -1,5 +1,8 @@
-package jp.co.dena.droidkaigi2025_prj.data
+package jp.co.dena.droidkaigi2025_prj.data.entity
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Speaker(
     val bio: String,
     val firstName: String,
