@@ -17,7 +17,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalSerializationApi::class)
 @HiltViewModel
 class TimetableViewModel @Inject constructor(
-    @field:ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _timeTable: MutableStateFlow<TimeTable?> = MutableStateFlow(null)
     val timeTable: StateFlow<TimeTable?> = _timeTable.asStateFlow()
