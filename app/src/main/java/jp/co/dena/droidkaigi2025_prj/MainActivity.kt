@@ -27,58 +27,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
+import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimeTableScreen
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalSerializationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val timetable = assets.open("timetable.json").buffered()
-        val decodedTimetable = Json.decodeFromStream<TimeTable>(timetable)
-
 
         setContent {
             DroidKaigi2025PrjTheme {
-                Scaffold(
-                    topBar = {
-                        Box(
-                            modifier = Modifier.padding(32.dp)
-                        ) {
-                            Text(
-                                "Time Table",
-                                fontSize = 40.sp,
-                                fontWeight = FontWeight.Black,
-                                color = Color.Blue
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxSize()
-                ) { innerPadding ->
-                    Box(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .padding(12.dp)
-                    ) {
-
-                        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            items(
-                                decodedTimetable.sessions
-                            ) {
-                                TableItem(it)
-                            }
-                        }
-                    }
-
-                }
+                TimeTableScreen()
             }
         }
     }
+
 }
 
 @Composable
@@ -100,7 +71,7 @@ fun TableItem(session: Session) {
                 color = Color.Black
             ),
 
-        )
+            )
     }
 }
 
