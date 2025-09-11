@@ -27,7 +27,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import jp.co.dena.droidkaigi2025_prj.Route
 import jp.co.dena.droidkaigi2025_prj.TableItem
+import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 
 @Composable
@@ -39,8 +41,8 @@ fun TimeTableScreen(
     timeTable?.let {
         TimeTableScreen(
             decodedTimetable = it,
-            onSessionClick = { index ->
-                navController.navigate("session_detail")
+            onSessionClick = { session ->
+                navController.navigate(Route.SessionDetail(session.id))
             }
         )
     }
@@ -49,7 +51,7 @@ fun TimeTableScreen(
 @Composable
 fun TimeTableScreen(
     decodedTimetable: TimeTable,
-    onSessionClick: (Int) -> Unit,
+    onSessionClick: (Session) -> Unit,
 ) {
     val top = with(LocalDensity.current) {
         WindowInsets.displayCutout.getTop(LocalDensity.current).toDp()
@@ -60,10 +62,10 @@ fun TimeTableScreen(
                 modifier = Modifier.padding(horizontal = 24.dp).padding(top = top)
             ) {
                 Text(
-                    "Time Table",
+                    "Timee Table",
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
-                    color = Color.Blue
+                    color = Color(0xFFFFD700)
                 )
             }
         },
@@ -77,12 +79,12 @@ fun TimeTableScreen(
         ) {
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                itemsIndexed(
+                items(
                     decodedTimetable.sessions
-                ) { index, item ->
+                ) { item ->
                     TableItem(
                         item,
-                        onClick = { onSessionClick(index) }
+                        onClick = { onSessionClick(item) }
                     )
                 }
             }

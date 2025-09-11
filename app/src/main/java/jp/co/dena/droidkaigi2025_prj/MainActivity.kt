@@ -25,12 +25,14 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimeTableScreen
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimetableDetailScreen
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -44,15 +46,19 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = "time_table"
+                    startDestination = Route.TimeTable
                 ) {
-                    composable("time_table") {
+                    composable<Route.TimeTable> {
                         TimeTableScreen(
                             navController = navController
                         )
                     }
-                    composable("session_detail") {
-                        TimetableDetailScreen(navController = navController)
+                    composable<Route.SessionDetail> {
+                        val route = it.toRoute<Route.SessionDetail>()
+                        TimetableDetailScreen(
+                            navController = navController,
+                            sessionId = route.sessionId,
+                        )
                     }
                 }
             }
@@ -101,6 +107,15 @@ fun TableItem(
     }
 }
 
+sealed interface Route {
+    @Serializable
+    data object TimeTable: Route
+
+    @Serializable
+    data class SessionDetail(
+        val sessionId: String
+    ): Route
+}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

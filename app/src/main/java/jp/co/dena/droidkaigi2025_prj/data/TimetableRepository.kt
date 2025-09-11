@@ -1,7 +1,9 @@
 package jp.co.dena.droidkaigi2025_prj.data
 
+import android.R
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -11,6 +13,7 @@ import javax.inject.Singleton
 
 interface TimetableRepository {
     fun loadTimetable(): TimeTable
+    fun loadSessionById(id: String): Session?
 }
 
 @Singleton
@@ -22,6 +25,14 @@ class TimetableRepositoryImpl @Inject constructor(
         val timetable = context.assets.open("timetable.json").buffered()
         val decodedTimetable = Json.decodeFromStream<TimeTable>(timetable)
         return decodedTimetable
+    }
+
+    override fun loadSessionById(id: String): Session? {
+        val timetable = loadTimetable()
+        val sessions = timetable.sessions
+        val sessionMap: Map<String, Session> = sessions.associateBy { it.id }
+
+        return sessionMap[id]
     }
 }
 
