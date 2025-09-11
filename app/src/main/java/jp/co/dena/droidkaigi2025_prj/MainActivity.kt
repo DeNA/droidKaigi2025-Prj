@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimeTableScreen
+import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimetableDetailScreen
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @AndroidEntryPoint
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable("session_detail") {
-                        Text("TODO")
+                        TimetableDetailScreen(navController = navController)
                     }
                 }
             }
