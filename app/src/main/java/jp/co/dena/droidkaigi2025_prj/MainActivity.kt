@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,7 +65,7 @@ class MainActivity : ComponentActivity() {
                             .padding(12.dp)
                     ) {
 
-                        LazyColumn() {
+                        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             items(
                                 decodedTimetable.sessions
                             ) {
@@ -81,12 +82,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TableItem(session: Session) {
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .background(Color.Cyan),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        Text(
+            session.startsAt
+        )
         Text(
             session.title.ja,
             style = TextStyle.Default.copy(
@@ -94,8 +98,7 @@ fun TableItem(session: Session) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             ),
-            modifier = Modifier
-                .background(Color.Cyan)
+
         )
     }
 }
