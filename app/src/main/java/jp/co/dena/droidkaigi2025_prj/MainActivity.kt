@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -29,8 +28,8 @@ import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
-import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimeTableScreen
-import jp.co.dena.droidkaigi2025_prj.ui.timetable.TimetableDetailScreen
+import jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetable.TimeTableScreen
+import jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetabledetail.TimetableDetailScreen
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 
@@ -50,13 +49,14 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable<Route.TimeTable> {
                         TimeTableScreen(
-                            navController = navController
+                            onSessionClick = {
+                                navController.navigate(Route.SessionDetail(it.id))
+                            },
                         )
                     }
                     composable<Route.SessionDetail> {
                         val route = it.toRoute<Route.SessionDetail>()
                         TimetableDetailScreen(
-                            navController = navController,
                             sessionId = route.sessionId,
                         )
                     }
@@ -97,7 +97,7 @@ fun TableItem(
                     color = Color.Black
                 ),
             )
-            if(session.speakers.isNotEmpty()) {
+            if (session.speakers.isNotEmpty()) {
                 Text(
                     // name?
                     text = session.speakers[0]
@@ -109,12 +109,12 @@ fun TableItem(
 
 sealed interface Route {
     @Serializable
-    data object TimeTable: Route
+    data object TimeTable : Route
 
     @Serializable
     data class SessionDetail(
-        val sessionId: String
-    ): Route
+        val sessionId: String,
+    ) : Route
 }
 
 @Composable
