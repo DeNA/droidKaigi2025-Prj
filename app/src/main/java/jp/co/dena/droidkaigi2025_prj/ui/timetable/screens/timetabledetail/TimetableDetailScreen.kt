@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
+import jp.co.dena.droidkaigi2025_prj.ui.components.TimetableAppBar
 
 @Composable
 fun TimetableDetailScreen(
@@ -31,7 +32,13 @@ fun TimetableDetailScreen(
         viewModel.initSession(sessionId)
     }
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            TimetableAppBar(
+                title = "hoge"
+            )
+        }
+    ) { innerPadding ->
 
 
         when (val state = screenState) {
@@ -49,7 +56,8 @@ fun TimetableDetailScreen(
             is TimetableDetailState.Success -> {
                 val session = state.session
                 Column(
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier
+                        .padding(innerPadding)
                         .padding(horizontal = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
