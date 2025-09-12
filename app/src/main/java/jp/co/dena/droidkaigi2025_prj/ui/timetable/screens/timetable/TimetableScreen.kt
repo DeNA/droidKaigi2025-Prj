@@ -129,12 +129,19 @@ fun TimeTableScreen(
         ) {
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                val speakers = decodedTimetable.speakers.associateBy {
+                    it.id
+                }
                 items(
                     decodedTimetable.sessions
                 ) { item ->
+                    val speakerNames = item.speakers.mapNotNull { id ->
+                        speakers[id]?.fullName
+                    }
                     TableItem(
                         session = item,
                         selectedLanguage = selectedLanguage,
+                        speakerNames = speakerNames,
                         onClick = { onSessionClick(item) }
                     )
                 }

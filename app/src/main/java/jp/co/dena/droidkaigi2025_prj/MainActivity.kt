@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -76,6 +78,7 @@ class MainActivity : ComponentActivity() {
 fun TableItem(
     session: Session,
     selectedLanguage: Languages,
+    speakerNames: List<String>,
     onClick: () -> Unit,
 ) {
     Card(
@@ -118,11 +121,12 @@ fun TableItem(
                     color = Color.Black
                 ),
             )
-            if (session.speakers.isNotEmpty()) {
-                Text(
-                    // name?
-                    text = session.speakers[0]
-                )
+            if (speakerNames.isNotEmpty()) {
+                Column {
+                    speakerNames.forEach { speakerName ->
+                        Text(text = speakerName)
+                    }
+                }
             }
         }
     }
