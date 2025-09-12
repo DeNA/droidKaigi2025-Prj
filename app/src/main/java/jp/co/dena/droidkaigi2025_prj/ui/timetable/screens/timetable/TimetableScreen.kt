@@ -59,6 +59,7 @@ fun TimeTableScreen(
         is TimetableState.Success -> {
             TimeTableScreen(
                 decodedTimetable = state.timetable,
+                selectedLanguage = state.selectedLanguage,
                 onSessionClick = onSessionClick,
                 onLanguageClick = viewModel::handleLanguageClick,
             )
@@ -79,6 +80,7 @@ fun TimeTableScreen(
 @Composable
 fun TimeTableScreen(
     decodedTimetable: TimeTable,
+    selectedLanguage: Languages,
     onSessionClick: (Session) -> Unit,
     onLanguageClick: (Languages) -> Unit,
 ) {
@@ -132,6 +134,7 @@ fun TimeTableScreen(
                 ) { item ->
                     TableItem(
                         session = item,
+                        selectedLanguage = selectedLanguage,
                         onClick = { onSessionClick(item) }
                     )
                 }

@@ -9,6 +9,9 @@ import jp.co.dena.droidkaigi2025_prj.data.TimetableRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,11 +28,11 @@ class TimetableViewModel @Inject constructor(
     private var _userLang = MutableStateFlow<Languages>(Languages.JAPANESE)
     val userLang = _userLang.asStateFlow()
 
-    init {
-        _userLang.update {
-            userRepo.getLanguage()
-        }
-    }
+//    init {
+//        userLang.onEach {
+//            fetchTimetable()
+//        }.launchIn(viewModelScope)
+//    }
 
     fun fetchTimetable() {
         if (screenState is TimetableState.Success) {
@@ -42,14 +45,19 @@ class TimetableViewModel @Inject constructor(
             }
 
             // Simulating network
-            delay(3000L)
+            delay(1000L)
 
             _screenState.update {
                 runCatching {
-                    timetableRepository.loadTimetable()
+                    val timetable = timetableRepository.loadTimetable()
+                    val language = userRepo.getLanguage()
+                    Pair(timetable, language)
                 }.fold(
-                    onSuccess = { timetable ->
-                        TimetableState.Success(timetable = timetable)
+                    onSuccess = { (timetable, language) ->
+                        TimetableState.Success(
+                            timetable = timetable,
+                            selectedLanguage = language,
+                        )
                     },
                     onFailure = { t ->
                         TimetableState.Failed(t)
@@ -63,6 +71,7 @@ class TimetableViewModel @Inject constructor(
         viewModelScope.launch {
             userRepo.changeLanguage(lang)
             _userLang.update { userRepo.getLanguage() }
+            fetchTimetable()
         }
     }
 }

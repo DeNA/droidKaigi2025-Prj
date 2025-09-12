@@ -30,6 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
+import jp.co.dena.droidkaigi2025_prj.data.Languages
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetable.TimeTableScreen
@@ -74,6 +75,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TableItem(
     session: Session,
+    selectedLanguage: Languages,
     onClick: () -> Unit,
 ) {
     Card(
@@ -104,7 +106,11 @@ fun TableItem(
                 session.startsAt
             )
             Text(
-                session.title.ja,
+                text = if (selectedLanguage == Languages.JAPANESE) {
+                    session.title.ja
+                } else {
+                    session.title.en
+                },
                 style = TextStyle.Default.copy(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
