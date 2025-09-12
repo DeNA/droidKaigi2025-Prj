@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +44,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.round
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -139,7 +141,7 @@ fun TableItem(
                     )
                     // TODO room.name.en/jpを一つの拡張関数で扱えるようにする
                     Box(
-                        modifier = Modifier.background(color = Color(0xFF5BBBB7)).padding(8.dp)
+                        modifier = Modifier.background(color = Color(0xFF5BBBB7), shape = RoundedCornerShape(8.dp)).padding(8.dp)
                     ) {
                         Text(
                             text = if (selectedLanguage == Languages.JAPANESE) {
