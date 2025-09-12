@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
@@ -51,7 +52,16 @@ fun TimetableDetailScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Text(session.id)
-                    Text(session.title.ja)
+                    Text(
+                        fontSize = 24.sp,
+                        text = session.title.ja
+                    )
+                    session.description?.let {
+                        Text(
+                            modifier = Modifier.padding(top = 8.dp),
+                            text = it
+                        )
+                    }
                 }
 
             }
