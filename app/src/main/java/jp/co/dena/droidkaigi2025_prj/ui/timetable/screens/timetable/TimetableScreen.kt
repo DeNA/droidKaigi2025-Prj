@@ -46,7 +46,7 @@ fun TimeTableScreen(
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(viewModel.currentDate.value) {
         viewModel.fetchTimetable()
     }
 

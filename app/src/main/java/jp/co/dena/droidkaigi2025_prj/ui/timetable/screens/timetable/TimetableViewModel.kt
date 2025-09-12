@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,8 +59,18 @@ class TimetableViewModel @Inject constructor(
                     Pair(timetable, language)
                 }.fold(
                     onSuccess = { (timetable, language) ->
+                        val filteredByDateTimetable = timetable.copy(
+                            sessions = timetable.sessions.filter {
+                                it.startsAt.startsWith(
+                                    when (currentDate.value) {
+                                        Date.Day1 -> "2025-09-11"
+                                        Date.Day2 -> "2025-09-12"
+                                    }
+                                )
+                            }
+                        )
                         TimetableState.Success(
-                            timetable = timetable,
+                            timetable = filteredByDateTimetable,
                             selectedLanguage = language,
                         )
                     },
