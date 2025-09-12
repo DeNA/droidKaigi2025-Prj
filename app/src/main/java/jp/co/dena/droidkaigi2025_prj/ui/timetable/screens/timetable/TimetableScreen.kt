@@ -14,6 +14,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -31,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jp.co.dena.droidkaigi2025_prj.TableItem
 import jp.co.dena.droidkaigi2025_prj.data.Languages
+import jp.co.dena.droidkaigi2025_prj.data.entity.Date
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 
@@ -40,6 +44,7 @@ fun TimeTableScreen(
     onSessionClick: (Session) -> Unit
 ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+    val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.fetchTimetable()
@@ -58,10 +63,12 @@ fun TimeTableScreen(
 
         is TimetableState.Success -> {
             TimeTableScreen(
+                date = currentDate,
                 decodedTimetable = state.timetable,
                 selectedLanguage = state.selectedLanguage,
                 onSessionClick = onSessionClick,
                 onLanguageClick = viewModel::handleLanguageClick,
+                onDateClick = viewModel::handleDateClick,
             )
         }
 
@@ -79,37 +86,63 @@ fun TimeTableScreen(
 
 @Composable
 fun TimeTableScreen(
+    date: Date,
     decodedTimetable: TimeTable,
     selectedLanguage: Languages,
     onSessionClick: (Session) -> Unit,
     onLanguageClick: (Languages) -> Unit,
+    onDateClick: (Date) -> Unit,
 ) {
     val top = with(LocalDensity.current) {
         WindowInsets.displayCutout.getTop(LocalDensity.current).toDp()
     }
 
-
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .padding(top = top)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    "DroidKaigi 2025 Time Table",
-                    modifier = Modifier.weight(1f),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Black,
-                    color = Color(0xFF5BBBB7)
-                )
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .padding(top = top)
+                ) {
+                    Text(
+                        "DroidKaigi 2025 Time Table",
+                        modifier = Modifier.weight(1f),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Black,
+                        color = Color(0xFF5BBBB7)
+                    )
 
-                Row {
-                    TextButton(onClick = { onLanguageClick(Languages.ENGLISH) }) {
-                        Text("EN")
+                    Row {
+                        TextButton(onClick = { onLanguageClick(Languages.ENGLISH) }) {
+                            Text("EN")
+                        }
+                        TextButton(onClick = { onLanguageClick(Languages.JAPANESE) }) {
+                            Text("JP")
+                        }
                     }
-                    TextButton(onClick = { onLanguageClick(Languages.JAPANESE) }) {
-                        Text("JP")
+                }
+
+                SingleChoiceSegmentedButtonRow(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                ) {
+                    Date.entries.forEach {
+                        SegmentedButton(
+                            date == it,
+                            onClick = {
+                                onDateClick(it)
+                            },
+                            shape = SegmentedButtonDefaults.itemShape(it.ordinal, Date.entries.size)
+                        ) {
+                            Text(
+                                when (it) {
+                                    Date.Day1 -> "9.11"
+                                    Date.Day2 -> "9.12"
+                                }
+                            )
+                        }
                     }
                 }
             }

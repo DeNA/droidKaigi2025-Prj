@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.dena.droidkaigi2025_prj.data.IUserRepository
 import jp.co.dena.droidkaigi2025_prj.data.Languages
 import jp.co.dena.droidkaigi2025_prj.data.TimetableRepository
+import jp.co.dena.droidkaigi2025_prj.data.entity.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,6 +28,9 @@ class TimetableViewModel @Inject constructor(
 
     private var _userLang = MutableStateFlow<Languages>(Languages.JAPANESE)
     val userLang = _userLang.asStateFlow()
+
+    private var _currentDate = MutableStateFlow<Date>(Date.Day1)
+    val currentDate = _currentDate.asStateFlow()
 
 //    init {
 //        userLang.onEach {
@@ -72,6 +76,13 @@ class TimetableViewModel @Inject constructor(
             userRepo.changeLanguage(lang)
             _userLang.update { userRepo.getLanguage() }
             fetchTimetable()
+        }
+    }
+
+    fun handleDateClick(date: Date) {
+        viewModelScope.launch {
+            // TODO 日付が切り替わった場合にタイムテーブルを取得し直す
+            _currentDate.update { date }
         }
     }
 }
