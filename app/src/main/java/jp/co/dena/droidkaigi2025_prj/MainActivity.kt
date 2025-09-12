@@ -32,6 +32,7 @@ import androidx.navigation.toRoute
 import coil3.compose.AsyncImage
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.Languages
+import jp.co.dena.droidkaigi2025_prj.data.entity.Room
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.Speaker
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
@@ -79,6 +80,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TableItem(
     session: Session,
+    room: Room,
     selectedLanguage: Languages,
     speakers: List<Speaker>,
     onClick: () -> Unit,
@@ -124,9 +126,19 @@ fun TableItem(
             ) {
                 val formattedDate =
                     OffsetDateTime.parse(session.startsAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-                Text(
-                    "${formattedDate.format(DateTimeFormatter.ofPattern("HH:mm"))}"
-                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(
+                        "${formattedDate.format(DateTimeFormatter.ofPattern("HH:mm"))}"
+                    )
+                    // TODO EN/JPで表示名を変更する
+                    // TODO room.name.en/jpを一つの拡張関数で扱えるようにする
+                    Text(
+                        text = room.name.en,
+                    )
+                }
                 Text(
                     text = if (selectedLanguage == Languages.JAPANESE) {
                         session.title.ja

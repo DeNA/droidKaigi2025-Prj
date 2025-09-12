@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import jp.co.dena.droidkaigi2025_prj.TableItem
 import jp.co.dena.droidkaigi2025_prj.data.Languages
 import jp.co.dena.droidkaigi2025_prj.data.entity.Date
+import jp.co.dena.droidkaigi2025_prj.data.entity.Room
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 
@@ -168,11 +169,14 @@ fun TimeTableScreen(
                 items(
                     decodedTimetable.sessions
                 ) { item ->
+                    // TODO この部分見直したい
+                    val room = decodedTimetable.rooms.find { it.id == item.roomId } ?: decodedTimetable.rooms.first()
                     val speakers = item.speakers.mapNotNull { id ->
                         speakersMap[id]
                     }
                     TableItem(
                         session = item,
+                        room = room,
                         selectedLanguage = selectedLanguage,
                         speakers = speakers,
                         onClick = { onSessionClick(item) }
