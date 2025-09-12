@@ -61,7 +61,7 @@ fun TimetableDetailScreen(
                     session.description?.let {
                         Text(
                             modifier = Modifier.padding(top = 8.dp),
-                            text = it
+                            text = it,fontSize = 20.sp,
                         )
                     }
                 }
