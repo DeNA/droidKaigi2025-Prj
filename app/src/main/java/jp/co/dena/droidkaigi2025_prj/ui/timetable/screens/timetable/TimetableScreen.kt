@@ -128,7 +128,7 @@ fun TimeTableScreen(
                 .padding(horizontal = 12.dp)
         ) {
 
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 items(
                     decodedTimetable.sessions
                 ) { item ->
