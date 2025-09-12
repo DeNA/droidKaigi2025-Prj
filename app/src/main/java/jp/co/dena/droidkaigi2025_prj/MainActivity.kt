@@ -93,7 +93,7 @@ fun TableItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 100.dp)
-                .background(Color.Cyan, RoundedCornerShape(10))
+                .background(color = Color(0xFFF6D77E), RoundedCornerShape(10))
                 .padding(
                     horizontal = 12.dp,
                     vertical = 6.dp

@@ -12,6 +12,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,6 +55,7 @@ fun TimetableDetailScreen(
                 ) {
                     Text(
                         fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
                         text = session.title.ja
                     )
                     session.description?.let {
