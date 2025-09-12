@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.retrofit)
     implementation(libs.dagger.hilt)
+    implementation(libs.coil)
+    implementation(libs.coil.okhttp)
     ksp(libs.dagger.hilt.android.compiler)
 
     testImplementation(libs.junit)

@@ -7,31 +7,33 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import coil3.compose.AsyncImage
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.dena.droidkaigi2025_prj.data.Languages
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
+import jp.co.dena.droidkaigi2025_prj.data.entity.Speaker
 import jp.co.dena.droidkaigi2025_prj.ui.theme.DroidKaigi2025PrjTheme
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetable.TimeTableScreen
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetabledetail.TimetableDetailScreen
@@ -78,53 +80,70 @@ class MainActivity : ComponentActivity() {
 fun TableItem(
     session: Session,
     selectedLanguage: Languages,
-    speakerNames: List<String>,
+    speakers: List<Speaker>,
     onClick: () -> Unit,
 ) {
     Card(
-        modifier = Modifier.run {
-            dropShadow(
-                shape = RoundedCornerShape(4.dp),
-                shadow = androidx.compose.ui.graphics.shadow.Shadow(
-                    radius = 8.dp,
-                    color = Color.Black.copy(alpha = 0.1f),
-                    offset = DpOffset(x = 4.dp, y = 4.dp)
-                )
-            )
-        },
+        modifier = Modifier
+            .background(
+                color = Color(0xFFDDDDDD),
+                RoundedCornerShape(10)
+            ),
         onClick = onClick
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 100.dp)
-                .background(color = Color(0xFFDDDDDD), RoundedCornerShape(10))
                 .padding(
                     horizontal = 12.dp,
                     vertical = 6.dp
                 ),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            val formattedDate = OffsetDateTime.parse(session.startsAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-            Text(
-                "${formattedDate.format(DateTimeFormatter.ofPattern("HH:mm"))}"
-            )
-            Text(
-                text = if (selectedLanguage == Languages.JAPANESE) {
-                    session.title.ja
-                } else {
-                    session.title.en
-                },
-                style = TextStyle.Default.copy(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                ),
-            )
-            if (speakerNames.isNotEmpty()) {
-                Column {
-                    speakerNames.forEach { speakerName ->
-                        Text(text = speakerName)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                speakers.forEach { speaker ->
+                    AsyncImage(
+                        model = speaker.profilePicture,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                    )
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .heightIn(min = 100.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                val formattedDate =
+                    OffsetDateTime.parse(session.startsAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                Text(
+                    "${formattedDate.format(DateTimeFormatter.ofPattern("HH:mm"))}"
+                )
+                Text(
+                    text = if (selectedLanguage == Languages.JAPANESE) {
+                        session.title.ja
+                    } else {
+                        session.title.en
+                    },
+                    style = TextStyle.Default.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    ),
+                )
+                if (speakers.isNotEmpty()) {
+                    Column {
+                        speakers.forEach { speaker ->
+                            Text(text = speaker.fullName)
+                        }
                     }
                 }
             }
