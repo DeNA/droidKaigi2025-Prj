@@ -97,11 +97,11 @@ fun TimeTableScreen(
                     .padding(top = top)
             ) {
                 Text(
-                    "Time Table",
+                    "DroidKaigi 2025 Time Table",
                     modifier = Modifier.weight(1f),
-                    fontSize = 40.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Black,
-                    color = Color(0xFFFFD700)
+                    color = Color(0xFF5BBBB7)
                 )
 
                 Row {
