@@ -3,6 +3,7 @@ package jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,9 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import jp.co.dena.droidkaigi2025_prj.Route
 import jp.co.dena.droidkaigi2025_prj.TableItem
+import jp.co.dena.droidkaigi2025_prj.data.Languages
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import jp.co.dena.droidkaigi2025_prj.data.entity.TimeTable
 
@@ -58,7 +59,8 @@ fun TimeTableScreen(
         is TimetableState.Success -> {
             TimeTableScreen(
                 decodedTimetable = state.timetable,
-                onSessionClick = onSessionClick
+                onSessionClick = onSessionClick,
+                onLanguageClick = viewModel::handleLanguageClick,
             )
         }
 
@@ -78,23 +80,36 @@ fun TimeTableScreen(
 fun TimeTableScreen(
     decodedTimetable: TimeTable,
     onSessionClick: (Session) -> Unit,
+    onLanguageClick: (Languages) -> Unit,
 ) {
     val top = with(LocalDensity.current) {
         WindowInsets.displayCutout.getTop(LocalDensity.current).toDp()
     }
+
+
     Scaffold(
         topBar = {
-            Box(
+            Row(
                 modifier = Modifier
                     .padding(horizontal = 24.dp)
                     .padding(top = top)
             ) {
                 Text(
                     "Time Table",
+                    modifier = Modifier.weight(1f),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
                     color = Color(0xFFFFD700)
                 )
+
+                Row {
+                    TextButton(onClick = { onLanguageClick(Languages.ENGLISH) }) {
+                        Text("EN")
+                    }
+                    TextButton(onClick = { onLanguageClick(Languages.JAPANESE) }) {
+                        Text("JP")
+                    }
+                }
             }
         },
         modifier = Modifier.fillMaxSize()
