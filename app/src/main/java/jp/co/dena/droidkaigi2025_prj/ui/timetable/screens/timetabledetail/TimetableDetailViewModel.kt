@@ -3,6 +3,7 @@ package jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetabledetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jp.co.dena.droidkaigi2025_prj.RoomColor
 import jp.co.dena.droidkaigi2025_prj.data.TimetableRepository
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
 import kotlinx.coroutines.delay
@@ -23,6 +24,10 @@ class TimetableDetailViewModel @Inject constructor(
     private var _screenState = MutableStateFlow<TimetableDetailState>(TimetableDetailState.Loading)
     val screenState = _screenState.asStateFlow()
 
+    private val timeTable by lazy {
+        timetableRepository.loadTimetable()
+    }
+
     fun initSession(sessionId: String) {
         viewModelScope.launch {
             _screenState.update { TimetableDetailState.Loading }
@@ -31,11 +36,18 @@ class TimetableDetailViewModel @Inject constructor(
             delay(1000L)
 
             _screenState.update {
+                timetableRepository.loadTimetable()
                 runCatching {
                     timetableRepository.loadSession(sessionId)
                 }.fold(
                     onSuccess = { session ->
-                        TimetableDetailState.Success(session = session)
+                        val allSpeakers = timeTable.speakers
+                        TimetableDetailState.Success(session = session, speakers = allSpeakers.filter {
+                            session.speakers.contains(it.id)
+                        }, room = TimetableDetailState.Success.RoomEntity(
+                            room = timeTable.rooms.first { it.id == session.roomId },
+                            roomColor = RoomColor.entries.first { it.id == session.roomId }
+                        ))
                     },
                     onFailure = {
                         TimetableDetailState.Failed(it)
