@@ -139,8 +139,8 @@ fun TimeTableScreen(
                         ) {
                             Text(
                                 when (it) {
-                                    Date.Day1 -> "9.11"
-                                    Date.Day2 -> "9.12"
+                                    Date.Day1 -> "9.11\u00a0(Day\u00a01)"
+                                    Date.Day2 -> "9.12\u00a0(Day\u00a02)"
                                 }
                             )
                         }

@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -134,13 +135,17 @@ fun TableItem(
                         "${formattedDate.format(DateTimeFormatter.ofPattern("HH:mm"))}"
                     )
                     // TODO room.name.en/jpを一つの拡張関数で扱えるようにする
-                    Text(
-                        text = if (selectedLanguage == Languages.JAPANESE) {
-                            room.name.ja
-                        } else {
-                            room.name.en
-                        },
-                    )
+                    Box(
+                        modifier = Modifier.background(color = Color(0xFF5BBBB7)).padding(8.dp)
+                    ) {
+                        Text(
+                            text = if (selectedLanguage == Languages.JAPANESE) {
+                                room.name.ja
+                            } else {
+                                room.name.en
+                            },
+                        )
+                    }
                 }
                 Text(
                     text = if (selectedLanguage == Languages.JAPANESE) {
