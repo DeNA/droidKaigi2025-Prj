@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import coil3.compose.AsyncImage
 import dagger.hilt.android.AndroidEntryPoint
+import jp.co.dena.droidkaigi2025_prj.RoomColor.Companion.toRoomColor
 import jp.co.dena.droidkaigi2025_prj.data.Languages
 import jp.co.dena.droidkaigi2025_prj.data.entity.Room
 import jp.co.dena.droidkaigi2025_prj.data.entity.Session
@@ -44,7 +44,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.math.round
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -81,6 +80,42 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+}
+
+enum class RoomColor(
+    val id: Int,
+    val color: Color,
+) {
+    Narwhal(
+        id = 64803,
+        color = Color(0xFFFF00FF)
+    ),
+    Meerkat(
+        id = 64801,
+        color = Color(0xFFFFFF00)
+    ),
+    Jellyfish(
+        id = 64799,
+        color = Color(0xFF00FFFF)
+    ),
+    Koala(
+        id = 64802,
+        color = Color(0xFFFF0FFF)
+    ),
+    Ladybug(
+        id = 64800,
+        color = Color(0xFFFFF0FF)
+    ),
+    Unknown(
+        id = -1,
+        color = Color(0xFFFFFFFF)
+    );
+
+    companion object {
+        fun Room.toRoomColor(): RoomColor {
+            return entries.find { it.id == id } ?: Unknown
+        }
+    }
 }
 
 @Composable
@@ -141,7 +176,12 @@ fun TableItem(
                     )
                     // TODO room.name.en/jpを一つの拡張関数で扱えるようにする
                     Box(
-                        modifier = Modifier.background(color = Color(0xFF5BBBB7), shape = RoundedCornerShape(8.dp)).padding(8.dp)
+                        modifier = Modifier
+                            .background(
+                                color = room.toRoomColor().color,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(8.dp)
                     ) {
                         Text(
                             text = if (selectedLanguage == Languages.JAPANESE) {
