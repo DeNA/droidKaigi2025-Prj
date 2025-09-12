@@ -140,6 +140,5 @@ fun TimeTableScreen(
                 }
             }
         }
-
     }
 }

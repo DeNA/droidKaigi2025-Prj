@@ -16,9 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +35,8 @@ import jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetable.TimeTableScr
 import jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetabledetail.TimetableDetailScreen
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -102,8 +102,9 @@ fun TableItem(
                 ),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            val formattedDate = OffsetDateTime.parse(session.startsAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
             Text(
-                session.startsAt
+                "${formattedDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))}"
             )
             Text(
                 text = if (selectedLanguage == Languages.JAPANESE) {
