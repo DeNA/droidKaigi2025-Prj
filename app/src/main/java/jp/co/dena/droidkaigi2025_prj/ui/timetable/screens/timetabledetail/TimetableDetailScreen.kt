@@ -51,7 +51,6 @@ fun TimetableDetailScreen(
                         .padding(horizontal = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text(session.id)
                     Text(
                         fontSize = 24.sp,
                         text = session.title.ja
