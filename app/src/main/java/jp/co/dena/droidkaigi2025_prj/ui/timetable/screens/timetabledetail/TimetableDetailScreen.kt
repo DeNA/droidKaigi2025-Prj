@@ -1,5 +1,6 @@
 package jp.co.dena.droidkaigi2025_prj.ui.timetable.screens.timetabledetail
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import jp.co.dena.droidkaigi2025_prj.ui.components.TimetableAppBar
 fun TimetableDetailScreen(
     viewModel: TimetableDetailViewModel = hiltViewModel(),
     sessionId: String,
+    onBackPress: () -> Unit,
 ) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
 
@@ -32,10 +34,19 @@ fun TimetableDetailScreen(
         viewModel.initSession(sessionId)
     }
 
+    BackHandler {
+        onBackPress()
+    }
+
     Scaffold(
         topBar = {
             TimetableAppBar(
-                title = "hoge"
+                title = if (screenState is TimetableDetailState.Success) {
+                    (screenState as TimetableDetailState.Success).session.title.ja
+                } else {
+                    ""
+                },
+                onClickBackButton = onBackPress,
             )
         }
     ) { innerPadding ->

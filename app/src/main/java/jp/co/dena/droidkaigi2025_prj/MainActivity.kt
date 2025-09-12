@@ -69,6 +69,9 @@ class MainActivity : ComponentActivity() {
                         val route = it.toRoute<Route.SessionDetail>()
                         TimetableDetailScreen(
                             sessionId = route.sessionId,
+                            onBackPress = {
+                                navController.popBackStack()
+                            }
                         )
                     }
                 }
