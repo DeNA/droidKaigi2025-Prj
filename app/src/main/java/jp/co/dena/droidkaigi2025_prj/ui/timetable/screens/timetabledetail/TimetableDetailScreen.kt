@@ -104,8 +104,7 @@ fun TimetableDetailScreen(
                         text = session.title.ja
                     )
 
-
-                    Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+                    Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         //time
                         Text(text = time)
 
