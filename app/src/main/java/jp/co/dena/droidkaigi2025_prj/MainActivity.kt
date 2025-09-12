@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -145,21 +147,6 @@ fun TableItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                speakers.forEach { speaker ->
-                    AsyncImage(
-                        model = speaker.profilePicture,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                    )
-                }
-            }
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -206,9 +193,21 @@ fun TableItem(
                     ),
                 )
                 if (speakers.isNotEmpty()) {
-                    Column {
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         speakers.forEach { speaker ->
-                            Text(text = speaker.fullName)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                AsyncImage(
+                                    model = speaker.profilePicture,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .clip(
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(text = speaker.fullName)
+                            }
                         }
                     }
                 }
