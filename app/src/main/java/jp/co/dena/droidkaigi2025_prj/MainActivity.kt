@@ -133,10 +133,13 @@ fun TableItem(
                     Text(
                         "${formattedDate.format(DateTimeFormatter.ofPattern("HH:mm"))}"
                     )
-                    // TODO EN/JPで表示名を変更する
                     // TODO room.name.en/jpを一つの拡張関数で扱えるようにする
                     Text(
-                        text = room.name.en,
+                        text = if (selectedLanguage == Languages.JAPANESE) {
+                            room.name.ja
+                        } else {
+                            room.name.en
+                        },
                     )
                 }
                 Text(
