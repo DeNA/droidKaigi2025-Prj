@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -84,31 +85,31 @@ class MainActivity : ComponentActivity() {
 
 enum class RoomColor(
     val id: Int,
-    val color: Color,
+    val colorRes: Int,
 ) {
     Narwhal(
         id = 64803,
-        color = Color(0xFFFF00FF)
+        colorRes = R.color.narwhal
     ),
     Meerkat(
         id = 64801,
-        color = Color(0xFFFFFF00)
+        colorRes = R.color.meerkat
     ),
     Jellyfish(
         id = 64799,
-        color = Color(0xFF00FFFF)
+        colorRes = R.color.jellyfish
     ),
     Koala(
         id = 64802,
-        color = Color(0xFFFF0FFF)
+        colorRes = R.color.koala
     ),
     Ladybug(
         id = 64800,
-        color = Color(0xFFFFF0FF)
+        colorRes = R.color.ladybug
     ),
     Unknown(
         id = -1,
-        color = Color(0xFFFFFFFF)
+        colorRes = R.color.unknown
     );
 
     companion object {
@@ -178,7 +179,7 @@ fun TableItem(
                     Box(
                         modifier = Modifier
                             .background(
-                                color = room.toRoomColor().color,
+                                color = colorResource(room.toRoomColor().colorRes),
                                 shape = RoundedCornerShape(8.dp)
                             )
                             .padding(8.dp)
