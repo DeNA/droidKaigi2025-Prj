@@ -67,6 +67,8 @@ class TimetableViewModel @Inject constructor(
                                         Date.Day2 -> "2025-09-12"
                                     }
                                 )
+                            }.sortedBy {
+                                it.startsAt
                             }
                         )
                         TimetableState.Success(

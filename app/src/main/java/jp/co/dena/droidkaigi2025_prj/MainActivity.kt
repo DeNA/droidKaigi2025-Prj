@@ -107,7 +107,7 @@ fun TableItem(
         ) {
             val formattedDate = OffsetDateTime.parse(session.startsAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
             Text(
-                "${formattedDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))}"
+                "${formattedDate.format(DateTimeFormatter.ofPattern("HH:mm"))}"
             )
             Text(
                 text = if (selectedLanguage == Languages.JAPANESE) {
